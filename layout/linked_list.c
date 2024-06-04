@@ -1,4 +1,6 @@
-#include "List.h"
+#include "serializer/layout/linked_list.h"
+
+#include "stdlib.h"
 
 void PushBack(List *list, Node *node) {
     if (Empty(list)) {
@@ -9,6 +11,7 @@ void PushBack(List *list, Node *node) {
         list->tail->next = node;
         list->tail = node;
     }
+    ++list->size;
 }
 
 void PushFront(List *list, Node *node) {
@@ -20,21 +23,22 @@ void PushFront(List *list, Node *node) {
         list->head->prev = node;
         list->head = node;
     }
+    ++list->size;
 }
 
 Node *PopBack(List *list) {
-    err_code = 0;
+    err_code = NOERR;
     if (Empty(list)) {
-        err_code = 1;
-        perror("Could not pop from empty list\n");
+        err_code = EMPTYLIST;
         return NULL;
-    } else {
+    } else { //NOLINT
+        --list->size;
         if (list->head == list->tail) {
             Node *node = list->tail;
             list->head = NULL;
             list->tail = NULL;
             return node;
-        } else {
+        } else { //NOLINT
             Node *node = list->tail;
             list->tail->prev->next = NULL;
             list->tail = list->tail->prev;
@@ -44,18 +48,18 @@ Node *PopBack(List *list) {
 }
 
 Node *PopFront(List *list) {
-    err_code = 0;
+    err_code = NOERR;
     if (Empty(list)) {
-        err_code = 1;
-        perror("Could not pop from empty list\n");
+        err_code = EMPTYLIST;
         return NULL;
-    } else {
+    } else { //NOLINT
+        --list->size;
         if (list->head == list->tail) {
             Node *node = list->head;
             list->head = NULL;
             list->tail = NULL;
             return node;
-        } else {
+        } else { //NOLINT
             Node *node = list->head;
             list->head->next->prev = NULL;
             list->head = list->head->next;

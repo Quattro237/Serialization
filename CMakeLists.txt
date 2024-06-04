@@ -1,0 +1,6 @@
+add_subdirectory(error_handler)
+add_subdirectory(layout)
+add_subdirectory(conv)
+add_subdirectory(serialization)
+add_subdirectory(test)
+add_subdirectory(snappy-c)
